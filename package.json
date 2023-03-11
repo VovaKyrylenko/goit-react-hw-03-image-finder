@@ -1,8 +1,8 @@
 {
-  "name": "react-homework-template",
+  "name": "goit-react-hw-03-image-finder",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://VovaKyrylenko.github.io/react-homework-template/",
+  "homepage": "https://VovaKyrylenko.github.io/goit-react-hw-03-image-finder/",
   "dependencies": {
     "@emotion/styled": "^11.10.6",
     "@testing-library/jest-dom": "^5.16.3",
