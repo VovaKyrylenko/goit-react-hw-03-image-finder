@@ -36,7 +36,7 @@ export class App extends PureComponent {
         />
         {this.state.isOpenModal && (
           <Modal onToggleModal={this.onToggleModal}>
-            <img src={this.state.modalImage} />
+            <img src={this.state.modalImage} alt="" />
           </Modal>
         )}
       </>
