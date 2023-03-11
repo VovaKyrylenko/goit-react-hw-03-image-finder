@@ -25,7 +25,6 @@ export class Modal extends Component {
       this.handleClose();
     }
   }
-
   render() {
     console.log('this.props.onClose:', this.props);
     return createPortal(
