@@ -84,6 +84,9 @@ export class ImageGallery extends Component {
         <Relative>
           <p>Search something</p>
         </Relative>;
+        break;
+      default:
+        console.log('Something went wrong');
     }
   }
 }
