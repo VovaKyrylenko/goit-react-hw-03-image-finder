@@ -5,12 +5,14 @@ import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Notify } from 'notiflix';
 import { Loader, Relative } from 'components/Loader/Loader.styled';
 import { Button } from 'components/Button/Button';
+import { AiFillRightSquare } from 'react-icons/ai';
 
 export class ImageGallery extends Component {
   state = {
     images: [],
     status: 'wait',
     page: 1,
+    isLast: false,
   };
 
   statusChage(value) {
@@ -26,19 +28,36 @@ export class ImageGallery extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const images = await getImages(this.props.searchValue, this.state.page);
-    if (images.length === 0 && this.state.status !== 'error') {
+    console.log(
+      'await getImages(this.props.searchValue, this.state.page).hits:',
+      (await getImages(this.props.searchValue, this.state.page)).hits
+    );
+    if (
+      (await getImages(this.props.searchValue, this.state.page)).hits.length ===
+        0 &&
+      this.state.status !== 'error'
+    ) {
       this.statusChage('error');
       Notify.failure('Input correct value');
     } else {
       if (prevProps.searchValue !== this.props.searchValue) {
         this.statusChage('load');
-        this.setState({ images: images });
+        this.setState({ page: 0 });
+        this.setState({
+          images: (await getImages(this.props.searchValue, this.state.page))
+            .hits,
+        });
         this.statusChage('ready');
       }
       if (prevState.page !== this.state.page) {
+        const images = await getImages(this.props.searchValue, this.state.page);
         this.statusChage('load');
-        this.setState(prev => ({ images: [...prev.images, ...images] }));
+        this.setState(prev => {
+          if ([...prev.images, ...images.hits].length === images.totalHits) {
+            this.setState({ isLast: true });
+          }
+          return { images: [...prev.images, ...images.hits] };
+        });
         this.statusChage('ready');
       }
     }
@@ -77,7 +96,7 @@ export class ImageGallery extends Component {
                 />
               ))}
             </ImageList>
-            <Button onClick={this.handlePage} />
+            {!this.state.isLast && <Button onClick={this.handlePage} />}
           </>
         );
       case 'error':

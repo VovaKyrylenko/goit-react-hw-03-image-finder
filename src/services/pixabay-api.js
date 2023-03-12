@@ -6,7 +6,7 @@ export async function getImages(query, page) {
     const response = await axios.get(
       `https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo&page=${page}`
     );
-    return response.data.hits;
+    return response.data;
   } catch (error) {
     return [];
   }
