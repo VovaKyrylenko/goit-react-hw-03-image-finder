@@ -5,8 +5,6 @@ import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Notify } from 'notiflix';
 import { Loader, Relative } from 'components/Loader/Loader.styled';
 import { Button } from 'components/Button/Button';
-import { AiFillRightSquare } from 'react-icons/ai';
-
 export class ImageGallery extends Component {
   state = {
     images: [],
