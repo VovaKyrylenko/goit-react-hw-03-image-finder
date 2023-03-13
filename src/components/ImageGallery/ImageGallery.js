@@ -26,37 +26,25 @@ export class ImageGallery extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    if (
-      (await getImages(this.props.searchValue, this.state.page)).hits.length ===
-        0 &&
-      this.state.status !== 'error'
-    ) {
-      this.statusChage('error');
-      Notify.failure('Input correct value');
-    } else {
-      if (prevProps.searchValue !== this.props.searchValue) {
-        this.setState({ isLast: false });
-        this.statusChage('load');
-        this.setState({ page: 1 });
-        this.setState({
-          images: (await getImages(this.props.searchValue, 1)).hits,
-        });
-        this.statusChage('ready');
-      }
-      if (prevState.page !== this.state.page) {
-        console.log('this.props.searchValue:', this.props.searchValue);
-        console.log('this.state.page:', this.state.page);
-        const images = await getImages(this.props.searchValue, this.state.page);
-        console.log('images:', images);
-        this.statusChage('load');
-        this.setState(prev => {
-          if ([...prev.images, ...images.hits].length === images.totalHits) {
-            this.setState({ isLast: true });
-          }
-          return { images: [...prev.images, ...images.hits] };
-        });
-        this.statusChage('ready');
-      }
+    if (prevProps.searchValue !== this.props.searchValue) {
+      this.setState({ isLast: false });
+      this.statusChage('load');
+      this.setState({ page: 1 });
+      this.setState({
+        images: (await getImages(this.props.searchValue, 1)).hits,
+      });
+      this.statusChage('ready');
+    }
+    if (prevState.page !== this.state.page && this.state.page !== 1) {
+      const images = await getImages(this.props.searchValue, this.state.page);
+      this.statusChage('load');
+      this.setState(prev => {
+        if ([...prev.images, ...images.hits].length === images.totalHits) {
+          this.setState({ isLast: true });
+        }
+        return { images: [...prev.images, ...images.hits] };
+      });
+      this.statusChage('ready');
     }
   }
 
