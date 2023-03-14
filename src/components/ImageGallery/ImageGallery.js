@@ -2,7 +2,6 @@ import { Component } from 'react';
 import { getImages } from 'services/pixabay-api';
 import { ImageList } from './ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-import { Notify } from 'notiflix';
 import { Loader, Relative } from 'components/Loader/Loader.styled';
 import { Button } from 'components/Button/Button';
 export class ImageGallery extends Component {
